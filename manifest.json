@@ -1,0 +1,27 @@
+{
+    "name": "Record Browser",
+    "description": "Record Browser",
+    "version": "0.01",
+    "permissions": [
+      "activeTab"
+    ],
+    "background": {
+      "page": "background.html"
+    },
+    "browser_action": {
+      "default_title": "Record Browser",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 2,
+    "content_scripts": [
+      {
+        "matches": ["https://*/*", "http://*/*"],
+        "js": ["jquery-3.3.1.min.js","DetectElements.js"],
+        "all_frames": true,
+        "run_at": "document_end"
+      }
+    ],
+    "permissions": [
+      "tabs"
+    ]
+  }
