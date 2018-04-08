@@ -1,18 +1,31 @@
 RecordOptions={
   enableRecord:false,
 }
-
-
+function record() {
+  RecordOptions.enableRecord=true;
+  chrome.browserAction.setBadgeText({"text":"rec"});
+}
+function stop() {
+  RecordOptions.enableRecord=false;
+  chrome.browserAction.setBadgeText({"text":""});
+}
 chrome.extension.onConnect.addListener(function(port) {
     console.assert(port.name == "storeEvent");
-    port.onMessage.addListener(function(event) {
-      storeEvent(event)
-    });
+    if ( port.name == "storeEvent") {
+      port.onMessage.addListener(function(event) {
+        storeEvent(event)
+        port.postMessage("reloadTable");
+      });      
+    }
+
 });
 function storeEvent(event) {
-  var project=getActualProject();
-  project.actions.push(event);
-  saveActualProject(project);
+  if (RecordOptions.enableRecord) {
+    var project=getActualProject();
+    project.actions.push(event);
+    saveActualProject(project); 
+  }
+
 }
 function getActualProject() {
   var RecordBrowser=JSON.parse(localStorage.getItem("RecordBrowser"));

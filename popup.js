@@ -1,14 +1,28 @@
+var back = chrome.extension.getBackgroundPage();
+var port = chrome.extension.connect({name: "reloadTable"});
 reloadTable();
+port.onMessage.addListener(function(msg) {
+    console.log("message recieved" + msg);
+    reloadTable();
+});
 document.getElementById("reload").onclick=function(){
     reloadTable();
+}
+
+document.getElementById("record").onclick=function(){
+    back.record();
+}
+document.getElementById("stop").onclick=function(){
+    back.stop();
 }
 document.getElementById("clear").onclick=function(){
     localStorage.removeItem("RecordBrowser");
     reloadTable();
 }
-function reloadTable(id_table) {
+function reloadTable() {
     var old_tbody = document.getElementById('project');
     var new_tbody = document.createElement('tbody');
+    new_tbody.id='project';
     populate_with_new_rows(new_tbody);
     old_tbody.parentNode.replaceChild(new_tbody, old_tbody)
 }

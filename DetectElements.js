@@ -12,6 +12,7 @@ $('a').on('click', function(action){
     storeEvent(event)
 })
 function storeEvent(event){
+    console.log(event);
 	connect.postMessage(event);
 }
 
