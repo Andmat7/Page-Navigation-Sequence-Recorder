@@ -1,3 +1,8 @@
+RecordOptions={
+  enableRecord:false,
+}
+
+
 chrome.extension.onConnect.addListener(function(port) {
     console.assert(port.name == "storeEvent");
     port.onMessage.addListener(function(event) {
