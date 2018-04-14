@@ -9,8 +9,7 @@ class Player {
                 if (request.type=='onStart') {
                     if (this.state=='waiting') {
                         this.state="null";
-                        this.endAction();
-                        debugger;   
+                        this.endAction();  
                     }
                     
                 }
@@ -27,7 +26,8 @@ class Player {
         console.log(this.actions);
         if (this.actions.length==0) {
             mainController.stop();
-            debugger
+        }else{
+            this.sendAction();
         }
     }
     sendAction() {
@@ -36,7 +36,7 @@ class Player {
             this.state = "waiting";
         }
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            if (tabs[0]) {   
+            if (tabs[0]) {
                 chrome.tabs.sendMessage(tabs[0].id, { action: action, type: "action" }, function (response) {
                     console.log(response);
                 });

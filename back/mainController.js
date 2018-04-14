@@ -14,7 +14,6 @@ class MainController {
         chrome.browserAction.setBadgeText({ "text": "Play" });
     }
     record() {
-        //RecordOptions.enableRecord = true;
         this.state = "record";
         chrome.browserAction.setBadgeText({ "text": "rec" });
     }
