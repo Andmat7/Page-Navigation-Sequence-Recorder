@@ -1,6 +1,19 @@
 RecordOptions={
   enableRecord:false,
+  state:"nothing",
 }
+var player = new Player();
+class MainController {
+  constructor(){
+    this.enableRecord=false;
+    this.state="nothing";
+  }
+  stop() {
+    this.enableRecord=false;
+    chrome.browserAction.setBadgeText({"text":""});
+  }
+}
+
 function record() {
   RecordOptions.enableRecord=true;
   chrome.browserAction.setBadgeText({"text":"rec"});
@@ -9,8 +22,13 @@ function stop() {
   RecordOptions.enableRecord=false;
   chrome.browserAction.setBadgeText({"text":""});
 }
+
+function play() {
+  player.playing();
+  Back.state="play";
+  chrome.browserAction.setBadgeText({"text":"Play"});
+}
 chrome.extension.onConnect.addListener(function(port) {
-    console.assert(port.name == "storeEvent");
     if ( port.name == "storeEvent") {
       port.onMessage.addListener(function(event) {
         storeEvent(event)

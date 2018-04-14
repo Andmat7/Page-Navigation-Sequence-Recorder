@@ -16,7 +16,7 @@
     "content_scripts": [
       {
         "matches": ["https://*/*", "http://*/*"],
-        "js": ["jquery-3.3.1.min.js","DetectElements.js"],
+        "js": ["jquery-3.3.1.min.js","DetectElements.js","inPages/playerEvents.js"],
         "all_frames": true,
         "run_at": "document_end"
       }

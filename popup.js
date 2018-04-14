@@ -15,6 +15,9 @@ document.getElementById("record").onclick=function(){
 document.getElementById("stop").onclick=function(){
     back.stop();
 }
+document.getElementById("play").onclick=function(){
+    back.play();
+}
 document.getElementById("clear").onclick=function(){
     localStorage.removeItem("RecordBrowser");
     reloadTable();
