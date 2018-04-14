@@ -25,6 +25,10 @@ class Player {
     endAction() {
         this.actions.shift();
         console.log(this.actions);
+        if (this.actions.length==0) {
+            mainController.stop();
+            debugger
+        }
     }
     sendAction() {
         let action = this.actions[0];

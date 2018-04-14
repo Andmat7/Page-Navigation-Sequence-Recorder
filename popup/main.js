@@ -16,7 +16,7 @@ document.getElementById("stop").onclick=function(){
     back.stop();
 }
 document.getElementById("play").onclick=function(){
-    back.play();
+    back.mainController.play();
 }
 document.getElementById("clear").onclick=function(){
     localStorage.removeItem("RecordBrowser");
