@@ -7,7 +7,6 @@ class MainController {
       this.enableRecord = false;
       chrome.browserAction.setBadgeText({ "text": "" });
       var back = chrome.extension.getBackgroundPage();
-      debugger
     }
     play() {
         player.playing();
