@@ -6,12 +6,12 @@ class Player {
         this.state = "null";
         chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
-                if (request.type=='onStart') {
-                    if (this.state=='waiting') {
-                        this.state="null";
-                        this.endAction();  
+                if (request.type == 'onStart') {
+                    if (this.state == 'waiting') {
+                        this.state = "null";
+                        this.endAction();
                     }
-                    
+
                 }
             }.bind(this));
     }
@@ -23,10 +23,9 @@ class Player {
     }
     endAction() {
         this.actions.shift();
-        console.log(this.actions);
-        if (this.actions.length==0) {
+        if (this.actions.length == 0) {
             mainController.stop();
-        }else{
+        } else {
             this.sendAction();
         }
     }
@@ -38,10 +37,15 @@ class Player {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             if (tabs[0]) {
                 chrome.tabs.sendMessage(tabs[0].id, { action: action, type: "action" }, function (response) {
-                    console.log(response);
-                });
-            }else{
-                setTimeout(function() { this.sendAction() }, 1000);
+                    if(response.hasOwnProperty('ready')){
+                        if (response.ready) {
+                            this.endAction();
+                        }
+                    }
+
+                }.bind(this));
+            } else {
+                setTimeout(function () { this.sendAction() }.bind(this), 1000);
             }
         }.bind(this));
     }
