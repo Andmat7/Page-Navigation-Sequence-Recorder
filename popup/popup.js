@@ -10,8 +10,6 @@ class PopUP {
         }.bind(this);
 
         document.getElementById("record").onclick = function () {
-            localStorage.removeItem("RecordBrowser");
-            this.reloadTable();
             back.mainController.record();
         }.bind(this)
         document.getElementById("stop").onclick = function () {
@@ -19,6 +17,9 @@ class PopUP {
         }
         document.getElementById("play").onclick = function () {
             back.mainController.play();
+        }
+        document.getElementById("send").onclick = function () {
+            back.mainController.send();
         }
         document.getElementById("clear").onclick = function () {
             localStorage.removeItem("RecordBrowser");
@@ -65,17 +66,31 @@ class PopUP {
             input.value = element.data
             td.appendChild(input);
             tr.appendChild(td);
-
+            
             var td = document.createElement("td");
             var input = document.createElement("input");
             input.type = "text";
+            input.index = index;
+            if(element.comment){
+                input.value = element.comment
+            }
             input.id = "commentary_"+index;
+            input.onchange = this.updateComment.bind(this);
             td.appendChild(input);
             tr.appendChild(td);
 
             tbody.appendChild(tr);
-        });
+        }.bind(this));
 
+    }
+    updateComment(input){
+        var index=input.target.index
+        var value=input.target.value
+        var project = this.getActualProject();
+        
+        project.actions[index].comment=value;
+        this.saveActualProject(project);
+        debugger
     }
     getActualProject() {
         var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));
@@ -91,6 +106,16 @@ class PopUP {
             }
         }
         return RecordBrowser.projects[0];
+    }
+    saveActualProject(project) {
+        var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));
+        if (!RecordBrowser) {
+          RecordBrowser = {
+            projects: []
+          }
+        }
+        RecordBrowser.projects[0] = project;
+        localStorage.setItem("RecordBrowser", JSON.stringify(RecordBrowser));
     }
 }
 

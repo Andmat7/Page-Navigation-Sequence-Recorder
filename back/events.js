@@ -15,20 +15,21 @@ class Events {
     return RecordBrowser.projects[0].actions;
   }
   storeEvent(event) {
-    if (mainController.state == "record") {
+    if (mainController.state == "record" && event.action!="text") {
       var project = this.getActualProject();
       project.actions.push(event);
       this.saveActualProject(project);
-    }
-    if (mainController.state == "text") {
-      if (event.action=="text") {
-        alert('texto guardado:'+event.data);
-        var project = this.getActualProject();
-        project.actions.push(event);
-        this.saveActualProject(project);
-        mainController.stop();
+    }else{
+      if (mainController.state == "text") {
+        if (event.action=="text") {
+          alert('texto guardado:'+event.data);
+          var project = this.getActualProject();
+          project.actions.push(event);
+          this.saveActualProject(project);
+          mainController.stop();
+        }
+  
       }
-
     }
   }
   getActualProject() {
@@ -60,7 +61,9 @@ class Events {
 
     chrome.tabs.getSelected(null, function (tab) {
       var project = this.getActualProject();
-      project.url = tab.url;
+      if(!project.url){
+        project.url = tab.url;
+      }
       this.saveActualProject(project);
     }.bind(this));
 
