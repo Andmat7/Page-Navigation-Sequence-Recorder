@@ -40,7 +40,6 @@ class PopUP {
             td.appendChild(txt);
             tr.appendChild(td);
  
-
             var td = document.createElement("td");
             var txt = document.createTextNode(element.action);
             td.appendChild(txt);
