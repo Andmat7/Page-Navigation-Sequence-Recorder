@@ -20,7 +20,16 @@ class Events {
       project.actions.push(event);
       this.saveActualProject(project);
     }
+    if (mainController.state == "text") {
+      if (event.action=="text") {
+        alert('texto guardado:'+event.data);
+        var project = this.getActualProject();
+        project.actions.push(event);
+        this.saveActualProject(project);
+        mainController.stop();
+      }
 
+    }
   }
   getActualProject() {
     var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));

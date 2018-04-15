@@ -24,6 +24,9 @@ class PopUP {
             localStorage.removeItem("RecordBrowser");
             this.reloadTable();
         }.bind(this);
+        document.getElementById("SelectText").onclick = function () {
+            back.mainController.detectText();
+        }.bind(this);
         this.reloadTable();
     }
     reloadTable() {
@@ -51,7 +54,7 @@ class PopUP {
             var td = document.createElement("td");
             var input = document.createElement("input");
             input.type = "text";
-            input.value = element.path
+            input.value = element.path;
             input.disabled = true;
             td.appendChild(input);
             tr.appendChild(td);
@@ -66,6 +69,7 @@ class PopUP {
             var td = document.createElement("td");
             var input = document.createElement("input");
             input.type = "text";
+            input.id = "commentary_"+index;
             td.appendChild(input);
             tr.appendChild(td);
 

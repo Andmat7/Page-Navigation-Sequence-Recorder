@@ -2,10 +2,10 @@ var connect = chrome.extension.connect({ name: "storeEvent" });
 $(document).click(function (clickEvent) {
     let tag = $(clickEvent.target).prop("tagName").toLowerCase();
     let event={}
+    event.path = cssRoute(clickEvent.target);
     if (tag == 'a') {
         event.data = clickEvent.target.href
         var href = event.data
-        event.path = cssRoute(clickEvent.target);
         if (href == "" || href == "#" || href == null) {
             event.action = "click";
         } else {
@@ -15,10 +15,9 @@ $(document).click(function (clickEvent) {
     }
     if (tag == 'input'&& clickEvent.target.type == 'submit') {
         event.action = "click";
-        event.path = cssRoute(clickEvent.target);
         storeEvent(event)
     }
-    event.text = $(clickEvent.target).text();
+    event.data = $(clickEvent.target).text();
     storeText(event)
 });
 $("input[type=text], input[type=password], textarea, select").on('change', function (action) {
@@ -42,7 +41,7 @@ function storeEvent(event) {
 function storeText(event) {
     console.log(event);
     event.action = 'text';
-    //connect.postMessage(event);
+    connect.postMessage(event);
 }
 function cssRoute(element) {
     var ListRoutes = [];
