@@ -19,7 +19,12 @@ $("input[type=text], input[type=password], textarea, select").on('change', funct
     event.action="change";
     storeEvent(event);
 });
-
+$(":button").on('click', function(obj) {
+    var event={}
+    event.path=cssRoute(this);
+    event.action="click";
+    storeEvent(event);
+});
 
 function storeEvent(event){
     console.log(event);

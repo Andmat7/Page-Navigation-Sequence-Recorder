@@ -15,6 +15,7 @@ class MainController {
     }
     record() {
         this.state = "record";
+        events.saveURL();
         chrome.browserAction.setBadgeText({ "text": "rec" });
     }
 }

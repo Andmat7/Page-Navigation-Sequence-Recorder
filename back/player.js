@@ -2,7 +2,6 @@
 class Player {
 
     constructor() {
-        //null waiting
         this.state = "null";
         chrome.runtime.onMessage.addListener(
             function (request, sender, sendResponse) {
@@ -25,6 +24,7 @@ class Player {
         this.actions.shift();
         if (this.actions.length == 0) {
             mainController.stop();
+            alert("finish");
         } else {
             this.sendAction();
         }

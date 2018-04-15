@@ -47,4 +47,14 @@ class Events {
     RecordBrowser.projects[0] = project;
     localStorage.setItem("RecordBrowser", JSON.stringify(RecordBrowser));
   }
+  saveURL() {
+
+    chrome.tabs.getSelected(null, function (tab) {
+      var project = this.getActualProject();
+      project.url = tab.url;
+      this.saveActualProject(project);
+    }.bind(this));
+
+
+  }
 }
