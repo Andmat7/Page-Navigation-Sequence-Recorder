@@ -3,6 +3,7 @@ $('a').on('click', function(action){
     var aLink = this;
     var href=aLink.href;
     var event={}
+    event.data=href;
     event.path=cssRoute(aLink);
     if ( href=="" || href=="#" || href==null ) {
         event.action="click";
@@ -11,6 +12,15 @@ $('a').on('click', function(action){
     }
     storeEvent(event)
 })
+$("input[type=text], input[type=password], textarea, select").on('change', function(action) {
+    var event={}
+    event.path=cssRoute(this);
+    event.data=this.value;
+    event.action="change";
+    storeEvent(event);
+});
+
+
 function storeEvent(event){
     console.log(event);
 	connect.postMessage(event);
