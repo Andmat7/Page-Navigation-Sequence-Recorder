@@ -11,9 +11,9 @@ class MainController {
         var back = chrome.extension.getBackgroundPage();
     }
     play() {
-        player.playing();
-        this.state = "play";
         chrome.browserAction.setBadgeText({ "text": "Play" });
+        player.playing();
+        this.state = "play";   
     }
     record() {
         this.state = "record";

@@ -14,6 +14,10 @@ $(document).click(function (clickEvent) {
         storeEvent(event)
     }
     if (tag == 'input'&& clickEvent.target.type == 'submit') {
+        event.action = "submit";
+        storeEvent(event)
+    }
+    if (tag == 'button') {
         event.action = "click";
         storeEvent(event)
     }
@@ -27,13 +31,6 @@ $("input[type=text], input[type=password], textarea, select").on('change', funct
     event.action = "change";
     storeEvent(event);
 });
-$(":button").on('click', function (obj) {
-    var event = {}
-    event.path = cssRoute(this);
-    event.action = "click";
-    storeEvent(event);
-});
-
 function storeEvent(event) {
     console.log(event);
     connect.postMessage(event);

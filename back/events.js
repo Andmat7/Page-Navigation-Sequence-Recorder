@@ -1,4 +1,7 @@
 class Events {
+  constructor(){
+    this.connect = chrome.extension.connect({ name: "reloadTable" });
+  }
   getActions() {
     var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));
     if (!RecordBrowser) {

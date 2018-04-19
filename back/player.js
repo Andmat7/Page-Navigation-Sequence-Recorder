@@ -1,26 +1,43 @@
-
 class Player {
-
     constructor() {
-        this.state = "null";
-        chrome.runtime.onMessage.addListener(
-            function (request, sender, sendResponse) {
-                if (request.type == 'onStart') {
-                    if (this.state == 'waiting') {
-                        this.state = "null";
-                        this.endAction();
-                    }
-
-                }
-            }.bind(this));
+        this.counter = 0;
     }
-    playing() {
+    listener(request) {
+        debugger;
+        if (request.ready) {
+            this.checkLastAction(request.action)
+        }
+    }
+    checkLastAction(action) {
+        let actualAction = this.actions[0];
+        if (actualAction.path == action.path) {
+            this.endAction();
+        } else {
+            alert('error');
+        }
+    }
+    after_initialize() {
         var EventsController = new Events();
         this.actions = EventsController.getActions();
+        this.counter = 0;
         this.sendAction();
+    }
+    playing() {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            if (tabs[0]) {
+                this.player_connect = chrome.tabs.connect(tabs[0].id, { name: "player_connect" });
+                this.player_connect.onMessage.addListener(this.listener);
+                this.after_initialize();
+            } else {
+            }
+        }.bind(this));
+
 
     }
     endAction() {
+
+        //events.updateStateAction(this.counter, '✓');
+        this.counter++;
         this.actions.shift();
         if (this.actions.length == 0) {
             mainController.stop();
@@ -30,23 +47,16 @@ class Player {
         }
     }
     sendAction() {
+        debugger;
         let action = this.actions[0];
-        if (action.action == "redirect") {
-            this.state = "waiting";
-        }
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            if (tabs[0]) {
-                chrome.tabs.sendMessage(tabs[0].id, { action: action, type: "action" }, function (response) {
-                    if(response.hasOwnProperty('ready')){
-                        if (response.ready) {
-                            this.endAction();
-                        }
-                    }
-
-                }.bind(this));
-            } else {
-                setTimeout(function () { this.sendAction() }.bind(this), 1000);
-            }
-        }.bind(this));
+        this.player_connect.postMessage({ action: action, type: "action" });
+    }
+    updatePopUpaction(index,simbol){
+        this.popup_player = chrome.runtime.connect({name: "popup_player"});
+        this.popup_player.postMessage({action: "updateAction",index:index,simbol:simbol});
+    }
+    clearPopUpActions(){
+        this.popup_player = chrome.runtime.connect({name: "popup_player"});
+        this.popup_player.postMessage({action: "clearActions"});
     }
 }
