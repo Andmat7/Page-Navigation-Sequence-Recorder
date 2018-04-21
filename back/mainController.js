@@ -7,16 +7,19 @@ class MainController {
         this.enableRecord = false;
         this.recordingText = false;
         this.state = null;
+        console.log('stop Record');
         chrome.browserAction.setBadgeText({ "text": "" });
         var back = chrome.extension.getBackgroundPage();
     }
     play() {
         chrome.browserAction.setBadgeText({ "text": "Play" });
         player.playing();
-        this.state = "play";   
+        this.state = "play";
+        console.log('play Record');
     }
     record() {
         this.state = "record";
+        console.log('recording');
         events.saveURL();
         chrome.browserAction.setBadgeText({ "text": "rec" });
     }
@@ -25,7 +28,7 @@ class MainController {
         chrome.browserAction.setBadgeText({ "text": "text" });
     }
     send() {
-        
+
         var xhr = new XMLHttpRequest();
         var url = "http://idolearning.test";
         xhr.open("POST", url, true);

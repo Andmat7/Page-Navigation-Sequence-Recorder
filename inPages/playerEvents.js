@@ -9,12 +9,10 @@ class PlayerEvents {
             }
         }
             .bind(this));
-        console.dir(document);
-
         var message = { ready: true, url: document.URL };
         var player_to_back = chrome.runtime.connect({ name: "player_to_back" });
         player_to_back.postMessage(message);
-        //console.log({ player_to_back: action.action })
+        console.log(document.URL)
 
     }
     listener(request) {

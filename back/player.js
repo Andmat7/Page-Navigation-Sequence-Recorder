@@ -3,7 +3,7 @@ class Player {
         this.counter = 0;
         chrome.runtime.onConnect.addListener(function (player_to_back) {
             //console.log({ player_to_back_onConnect: player_to_back })
-            if (player_to_back.name == "player_to_back") {
+            if (player_to_back.name == "player_to_back" && mainController.state == 'play') {
 
                 player_to_back.onMessage.addListener(function (request) {
 

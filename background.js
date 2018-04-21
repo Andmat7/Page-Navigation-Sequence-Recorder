@@ -1,7 +1,6 @@
 var player = new Player();
-var mainController = new MainController();
 var events = new Events();
-
+var mainController = new MainController();
 chrome.runtime.onConnect.addListener(function (port) {
   if (port.name == "storeEvent") {
     port.onMessage.addListener(function (event) {
