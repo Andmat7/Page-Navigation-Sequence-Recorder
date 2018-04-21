@@ -8,14 +8,15 @@ class PopUP {
         this.AddOnClicks();
         this.reloadTable();
         chrome.runtime.onConnect.addListener(function (port) {
-            console.assert(port.name == "popup_player");
             if (port.name == "popup_player") {
-                port.onMessage.addListener(function (message) {
-                    if (message.action == "updateAction")
-                        this.updateIndexEvent( message.index, message.simbol );
-                    if (message.action == "clearActions")
-                       this.reloadTable();
-                }.bind(this));
+                if (port.name == "popup_player") {
+                    port.onMessage.addListener(function (message) {
+                        if (message.action == "updateAction")
+                            this.updateIndexEvent( message.index, message.simbol );
+                        if (message.action == "clearActions")
+                           this.reloadTable();
+                    }.bind(this));
+                }      
             }
 
         }.bind(this));

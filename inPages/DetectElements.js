@@ -1,7 +1,8 @@
 var connect = chrome.extension.connect({ name: "storeEvent" });
 $(document).click(function (clickEvent) {
     let tag = $(clickEvent.target).prop("tagName").toLowerCase();
-    let event={}
+    let event={};
+    event.url=document.URL;
     event.path = cssRoute(clickEvent.target);
     if (tag == 'a') {
         event.data = clickEvent.target.href
@@ -9,7 +10,12 @@ $(document).click(function (clickEvent) {
         if (href == "" || href == "#" || href == null) {
             event.action = "click";
         } else {
-            event.action = "redirect";
+            if (href.startsWith("javascript")) {
+                event.action = "redirect_javascript";
+            }else{
+
+                event.action = "redirect";
+            }
         }
         storeEvent(event)
     }
@@ -32,11 +38,9 @@ $("input[type=text], input[type=password], textarea, select").on('change', funct
     storeEvent(event);
 });
 function storeEvent(event) {
-    console.log(event);
     connect.postMessage(event);
 }
 function storeText(event) {
-    console.log(event);
     event.action = 'text';
     connect.postMessage(event);
 }

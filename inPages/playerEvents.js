@@ -1,22 +1,24 @@
-
 class PlayerEvents {
     constructor() {
-        chrome.runtime.onConnect.addListener(function (port) {
-            debugger;
-            this.port = port;
-            console.assert(port.name == "player_connect");
-            port.onMessage.addListener(this.listener);
-
-        }.bind(this));
-        if (this.getLastAction()) {
-            var action = this.getLastAction();
-            //this.port.postMessage({ ready: true });
-            //chrome.runtime.sendMessage({ type: "reload_page" }, function () { });
+        chrome.runtime.onConnect.addListener(function (send_action) {
+            this.port = send_action;
+            console.assert(send_action.name == "send_action");
+            //console.log({ send_action_addListener: send_action })
+            if (send_action.name == "send_action") {
+                send_action.onMessage.addListener(this.listener.bind(this));
+            }
         }
-        
+            .bind(this));
+        console.dir(document);
+
+        var message = { ready: true, url: document.URL };
+        var player_to_back = chrome.runtime.connect({ name: "player_to_back" });
+        player_to_back.postMessage(message);
+        //console.log({ player_to_back: action.action })
+
     }
     listener(request) {
-        debugger;
+        console.log({ send_action_onMessage: request.action })
         if (request.type == "action") {
             var action = request.action;
             var message = {
@@ -24,45 +26,44 @@ class PlayerEvents {
                 received: false,
             }
             if (action.action == "redirect") {
+                //this.setLastAction(action);
+                console.log({ send_action_postMessage: { ready: false } })
+                this.port.postMessage({ ready: false });
                 window.location.href = $(action.path).attr('href');
-                message.received = true;
-                this.setLastAction(action);
-                port.postMessage({ ready: false });
+                return true
+            }
+            if (action.action == "redirect_javascript") {
+                //this.setLastAction(action);
+                console.log({ send_action_postMessage: { ready: false } })
+                this.port.postMessage({ ready: false });
+                window.location.href = $(action.path).attr('href');
+                return true
             }
             if (action.action == "change") {
                 var $input = $(action.path);
                 $input.focus();
                 $input.val(action.data);
                 $input.change();
-                port.postMessage({ ready: true });
+                this.port.postMessage({ ready: true });
             }
             if (action.action == "click") {
                 var $input = $(action.path);
                 $input.click();
-                port.postMessage({ ready: true });
+                this.port.postMessage({ ready: true });
+                return true
             }
             if (action.action == "submit") {
                 var $input = $(action.path);
                 $input.click();
-                port.postMessage({ ready: false });
+                this.port.postMessage({ ready: false });
 
             }
             if (action.action == "text") {
                 alert('text');
-                port.postMessage({ ready: true });
+                this.port.postMessage({ ready: true });
             }
         }
     }
 
-    setLastAction(event) {
-        localStorage.setItem("LastEvent", JSON.stringify(event));
-    }
-
-    getLastAction() {
-        if (localStorage.getItem("LastEvent")) {
-            return JSON.parse(localStorage.getItem("LastEvent"));
-        }
-        return false;
-    }
 }
 var player_events = new PlayerEvents();
