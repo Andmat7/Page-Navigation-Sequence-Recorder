@@ -12,17 +12,19 @@ class PopUP {
                 if (port.name == "popup_player") {
                     port.onMessage.addListener(function (message) {
                         if (message.action == "updateAction")
-                            this.updateIndexEvent( message.index, message.simbol );
+                            this.updateIndexEvent(message.index, message.simbol);
                         if (message.action == "clearActions")
-                           this.reloadTable();
+                            this.reloadTable();
+                        if (message.action == "closePopUp")
+                            window.close();
                     }.bind(this));
-                }      
+                }
             }
 
         }.bind(this));
     }
-    updateIndexEvent(index, simbol){
-        document.getElementById("index_" + index).innerHTML=simbol;
+    updateIndexEvent(index, simbol) {
+        document.getElementById("index_" + index).innerHTML = simbol;
     }
 
     AddOnClicks() {
@@ -59,14 +61,29 @@ class PopUP {
     }
     populate_with_new_rows(tbody) {
         var project = this.getActualProject();
+        debugger;
         document.getElementById('url_input').value = project.url;
         project.actions.forEach(function (element, index) {
+
+            back.mainController.state == "play"
+
             var tr = document.createElement("tr");
             var td = document.createElement("td");
             td.id = "index_" + index;
             td.className = "player_action"
-            var txt = document.createTextNode(index);
-            var txt = document.createTextNode(index);
+            var intext = index;
+            if (back.mainController.state == "play") {
+                if (back.player.counter > index) {
+                    intext = "✓"
+                } else {
+                    if (back.player.counter == index)
+                        intext = 'exec'
+                }
+
+            }
+            var txt = document.createTextNode(intext);
+
+
             td.appendChild(txt);
             tr.appendChild(td);
 
@@ -112,7 +129,6 @@ class PopUP {
         var project = this.getActualProject();
         project.actions[index].comment = value;
         this.saveActualProject(project);
-        debugger
     }
     getActualProject() {
         var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));

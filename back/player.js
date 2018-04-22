@@ -18,6 +18,7 @@ class Player {
     }
     playing() {
         console.clear();
+        //this.closePopUp()
         var EventsController = new Events();
         this.actions = EventsController.getActions();
         this.counter = 0;
@@ -108,5 +109,9 @@ class Player {
     clearPopUpActions() {
         this.popup_player = chrome.runtime.connect({ name: "popup_player" });
         this.popup_player.postMessage({ action: "clearActions" });
+    }
+    closePopUp() {
+        this.popup_player = chrome.runtime.connect({ name: "popup_player" });
+        this.popup_player.postMessage({ action: "closePopUp" });
     }
 }

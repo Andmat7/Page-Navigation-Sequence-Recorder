@@ -25,7 +25,7 @@ $(document).click(function (clickEvent) {
             storeEvent(event)
         } else {
             event.action = "click";
-            storeEvent(event)
+            //storeEvent(event)
         }
 
     }
@@ -44,14 +44,15 @@ $(document).submit(function (submitEvent) {
     event.path = cssRoute(submitEvent.target);
     storeEvent(event)
 });
-$(document).on('focus click', 'input', function (focusEvent) {
-    let event = {};
-    event.action = "focus";
-    event.data = ''
-    event.url = document.URL;
-    event.path = cssRoute(focusEvent.target);
-    storeEvent(event)
-});
+// $(document).on('focus click', 'input', function (focusEvent) {
+//     let event = {};
+//     event.action = "focus";
+//     event.data = ''
+//     event.url = document.URL;
+//     event.path = cssRoute(focusEvent.target);
+//     console.log('path',event)
+//     storeEvent(event)
+// });
 $("input[type=text], input[type=password], textarea, select").on('change', function (action) {
     var event = {}
     event.path = cssRoute(this);
