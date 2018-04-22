@@ -35,6 +35,7 @@ $("input[type=text], input[type=password], textarea, select").on('change', funct
     event.path = cssRoute(this);
     event.data = this.value;
     event.action = "change";
+    event.url=document.URL;
     storeEvent(event);
 });
 function storeEvent(event) {

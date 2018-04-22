@@ -2,21 +2,22 @@ class Player {
     constructor() {
         this.counter = 0;
         chrome.runtime.onConnect.addListener(function (player_to_back) {
-            //console.log({ player_to_back_onConnect: player_to_back })
             if (player_to_back.name == "player_to_back" && mainController.state == 'play') {
-
                 player_to_back.onMessage.addListener(function (request) {
-
-                    console.log({ player_to_back_onMessage: request })
+                    console.group("ReloadPage", request)
                     var isCorrect = this.checkLastAction(request);
-                    console.log({ player_to_back_postMessage: { isCorrect: isCorrect } })
-                    //player_to_back.postMessage({ isCorrect: isCorrect });
+                    console.log("IsCorrect", isCorrect)
+                    console.groupEnd();
+                    if (isCorrect) {
+                        this.endAction();
+                    }
                 }.bind(this));
             }
 
         }.bind(this));
     }
     playing() {
+        console.clear();
         var EventsController = new Events();
         this.actions = EventsController.getActions();
         this.counter = 0;
@@ -43,34 +44,40 @@ class Player {
     }
     connectAndSend(tabid, action) {
         var send_action = chrome.tabs.connect(tabid, { name: "send_action" });
-        var algo = send_action.postMessage({ action: action, type: "action" });
-        console.log({ send_action: action.action })
+        var Message = { action: action, type: "action", index: this.counter };
+        send_action.postMessage(Message);
+        console.groupCollapsed(this.counter + " " + action.action + " " + action.path.slice(-10) + " " + action.url.substring(0, 30));
+        console.group("send_action", Message);
         send_action.onMessage.addListener(function (request) {
-            console.log({ send_action_listener: request })
+            console.log("Message from page", request)
+            console.groupEnd();
             if (request.ready) {
                 this.endAction();
             }
         }.bind(this));
     }
     checkLastAction(request) {
+
         if (request.ready) {
             if (this.actions) {
                 if (this.actions.length > 1) {
                     let nextAction = this.actions[1];
-                    if (nextAction.action == "redirect") {
-                        if (request.url == nextAction.url) {
-                            this.endAction();
+                    console.log("CheckLastAction", { nextAction, request });
+                    if (nextAction.action == "redirect_javascript") {
+
+                        return true;
+
+                    } else {
+                        // get url without get params
+                        if (request.url.split(/[?#]/)[0] == nextAction.url.split(/[?#]/)[0]) {
+
                             return true;
                         } else {
                             return false;
                         }
-                    } else {
-                        this.endAction();
-                        return true;
                     }
 
                 } else {
-                    this.endAction();
                     return true;
                 }
             } else {
@@ -83,10 +90,10 @@ class Player {
         this.updatePopUpaction(this.counter, '✓');
         this.counter++;
         this.actions.shift();
-        console.log("endaction")
+        console.log("f endaction")
+        console.groupEnd();
         if (this.actions.length == 0) {
             mainController.stop();
-            //this.clearPopUpActions()
             //alert("finish");
         } else {
             this.sendAction();
