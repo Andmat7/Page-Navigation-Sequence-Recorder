@@ -17,9 +17,13 @@ class PlayerEvents {
         var action = request.action;
         console.groupCollapsed(request.index + " " + action.action + " " + action.path.slice(-10) + " " + action.url.substring(0, 30) + " " + document.URL.substring(0, 30));
         console.log(" received action", request);
+
         let equalUrl = (action.url.split(/[?#]/)[0] == document.URL.split(/[?#]/)[0])
+        console.log("verify equal",equalUrl)
         if (request.type == "action" && equalUrl) {
             this.execute(action);
+        }else{
+            
         }
         console.groupEnd();
     }
@@ -48,17 +52,32 @@ class PlayerEvents {
             $input.change();
             this.endExecution({ ready: true });
         }
+        if (action.action == "focus") {
+            var $input = $(action.path);
+            if($input.length>0){
+                $input.focus();
+                ready=true;
+            }else{
+                ready=false;
+            }
+            this.endExecution({ ready: ready });
+        }
         if (action.action == "click") {
             var $input = $(action.path);
-            $input.click();
-            this.endExecution({ ready: true });
-
+            var ready;
+            if($input.length>0){
+                $input.click();
+                ready=true;
+            }else{
+                ready=false;
+            }
+            
+            this.endExecution({ ready: ready });
         }
-        if (action.action == "submit") {
+        if (action.action == "submit-click") {
             var $input = $(action.path);
             $input.click();
-            this.endExecution({ ready: true });
-
+            this.endExecution({ ready: false });
         }
         if (action.action == "text") {
             alert('text');
@@ -66,6 +85,8 @@ class PlayerEvents {
         }
     }
     endExecution(message) {
+        message.url=document.URL;
+        console.log("endExecution",message)
         this.port.postMessage(message);
         return true
     }

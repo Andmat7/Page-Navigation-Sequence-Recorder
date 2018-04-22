@@ -62,7 +62,8 @@ class Player {
             if (this.actions) {
                 if (this.actions.length > 1) {
                     let nextAction = this.actions[1];
-                    console.log("CheckLastAction", { nextAction, request });
+                    console.log("CheckLastAction",nextAction, request);
+                    console.log("equals ",(request.url.split(/[?#]/)[0] == nextAction.url.split(/[?#]/)[0]));
                     if (nextAction.action == "redirect_javascript") {
 
                         return true;

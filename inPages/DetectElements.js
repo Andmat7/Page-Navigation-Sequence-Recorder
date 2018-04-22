@@ -1,8 +1,8 @@
 var connect = chrome.extension.connect({ name: "storeEvent" });
 $(document).click(function (clickEvent) {
     let tag = $(clickEvent.target).prop("tagName").toLowerCase();
-    let event={};
-    event.url=document.URL;
+    let event = {};
+    event.url = document.URL;
     event.path = cssRoute(clickEvent.target);
     if (tag == 'a') {
         event.data = clickEvent.target.href
@@ -12,16 +12,22 @@ $(document).click(function (clickEvent) {
         } else {
             if (href.startsWith("javascript")) {
                 event.action = "redirect_javascript";
-            }else{
+            } else {
 
                 event.action = "redirect";
             }
         }
         storeEvent(event)
     }
-    if (tag == 'input'&& clickEvent.target.type == 'submit') {
-        event.action = "submit";
-        storeEvent(event)
+    if (tag == 'input') {
+        if (clickEvent.target.type == 'submit') {
+            event.action = "submit-click";
+            storeEvent(event)
+        } else {
+            event.action = "click";
+            storeEvent(event)
+        }
+
     }
     if (tag == 'button') {
         event.action = "click";
@@ -30,12 +36,28 @@ $(document).click(function (clickEvent) {
     event.data = $(clickEvent.target).text();
     storeText(event)
 });
+$(document).submit(function (submitEvent) {
+    let event = {};
+    event.action = "submit";
+    event.data = submitEvent.target.action
+    event.url = submitEvent.target.action
+    event.path = cssRoute(submitEvent.target);
+    storeEvent(event)
+});
+$(document).on('focus click', 'input', function (focusEvent) {
+    let event = {};
+    event.action = "focus";
+    event.data = ''
+    event.url = document.URL;
+    event.path = cssRoute(focusEvent.target);
+    storeEvent(event)
+});
 $("input[type=text], input[type=password], textarea, select").on('change', function (action) {
     var event = {}
     event.path = cssRoute(this);
     event.data = this.value;
     event.action = "change";
-    event.url=document.URL;
+    event.url = document.URL;
     storeEvent(event);
 });
 function storeEvent(event) {
