@@ -99,7 +99,12 @@ class PlayerEvents {
             this.endExecution({ ready: false });
         }
         if (action.action == "text") {
-            alert('text');
+            var $input = $(action.path);
+            var ready = false;
+            if ($input.length > 0 && (action.data == $input.text())) {
+                ready = true;
+            }
+
             this.endExecution({ ready: true });
         }
     }
