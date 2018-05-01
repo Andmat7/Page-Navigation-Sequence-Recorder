@@ -44,6 +44,9 @@ class PopUP {
         document.getElementById("send").onclick = function () {
             back.mainController.send();
         }
+        document.getElementById("download").onclick = function () {
+            this.downloadJSON();
+        }.bind(this);
         document.getElementById("clear").onclick = function () {
             localStorage.removeItem("RecordBrowser");
             this.reloadTable();
@@ -53,11 +56,20 @@ class PopUP {
             back.mainController.detectText();
         }.bind(this);
     }
-    saveSecuencia(changeEvent) {
-        console.log(changeEvent.target.value);
+    downloadJSON() {
         var project = this.getActualProject();
-        console.log(project)
-        project.nombre=changeEvent.target.value;
+        var projectString = JSON.stringify(project, null, 4);
+        var Blobfile = new Blob([projectString], { type: "octet/stream" });
+        var file_name = project.nombre + '.json';
+        var url = window.URL.createObjectURL(Blobfile);
+        chrome.downloads.download({
+            filename: file_name,
+            url: url
+        });
+    }
+    saveSecuencia(changeEvent) {
+        var project = this.getActualProject();
+        project.nombre = changeEvent.target.value;
         this.saveActualProject(project);
     }
     reloadTable() {
