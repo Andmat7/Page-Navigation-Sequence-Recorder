@@ -48,9 +48,17 @@ class PopUP {
             localStorage.removeItem("RecordBrowser");
             this.reloadTable();
         }.bind(this);
+        document.getElementById("secuencia").onchange = this.saveSecuencia.bind(this);
         document.getElementById("SelectText").onclick = function () {
             back.mainController.detectText();
         }.bind(this);
+    }
+    saveSecuencia(changeEvent) {
+        console.log(changeEvent.target.value);
+        var project = this.getActualProject();
+        console.log(project)
+        project.nombre=changeEvent.target.value;
+        this.saveActualProject(project);
     }
     reloadTable() {
         var old_tbody = document.getElementById('project');
