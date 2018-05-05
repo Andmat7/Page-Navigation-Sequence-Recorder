@@ -1,23 +1,15 @@
-var connect = chrome.extension.connect({ name: "storeEvent" });
+window.browser = (function () {
+    return window.msBrowser ||
+      window.browser ||
+      window.chrome;
+  })();
+var connect = browser.runtime.connect({ name: "storeEvent" });
 $(document).click(function (clickEvent) {
     let tag = $(clickEvent.target).prop("tagName").toLowerCase();
     let event = {};
     event.url = document.URL;
     event.path = cssRoute(clickEvent.target);
     if (tag == 'a') {
-        // event.data = clickEvent.target.href
-        // var href = event.data
-        // if (href == "" || href == "#" || href == null) {
-        //     event.action = "click";
-        // } else {
-        //     if (href.startsWith("javascript")) {
-        //         event.action = "redirect_javascript";
-        //     } else {
-
-        //         event.action = "redirect";
-        //     }
-        // }
-        // storeEvent(event)
     }else{
         if (tag == 'input') {
             if (clickEvent.target.type == 'submit') {

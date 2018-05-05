@@ -1,6 +1,6 @@
 class Events {
   constructor(){
-    this.connect = chrome.extension.connect({ name: "reloadTable" });
+    this.connect = browser.runtime.connect({ name: "reloadTable" });
   }
   getActions() {
     var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));
@@ -62,13 +62,33 @@ class Events {
   }
   saveURL() {
 
-    chrome.tabs.getSelected(null, function (tab) {
-      var project = this.getActualProject();
-      if(!project.url){
-        project.url = tab.url;
+    //  browser.tabs.getSelected(null, function (tab) {
+    //   browser.tabs.query({active: true}){
+    //   var project = this.getActualProject();
+    //   if(!project.url){
+    //     project.url = tab.url;
+    //   }
+    //   this.saveActualProject(project);
+    // }.bind(this));
+    function logTabs(tabs) {
+      
+      for (let tab of tabs) {
+        var project = this.getActualProject();
+        if(!project.url){
+          project.url = tab.url;
+        }
+        this.saveActualProject(project);
+        // tab.url requires the `tabs` permission
+        console.log(tab.url);
       }
-      this.saveActualProject(project);
-    }.bind(this));
+    }
+    
+    function onError(error) {
+      console.log(`Error: ${error}`);
+    }
+    
+    var querying = browser.tabs.query({active: true},logTabs.bind(this));
+    //querying.then(logTabs.bind(this), onError);
 
 
   }

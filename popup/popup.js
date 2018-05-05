@@ -1,5 +1,10 @@
-var back = chrome.extension.getBackgroundPage();
-var port = chrome.extension.connect({ name: "reloadTable" });
+window.browser = (function () {
+    return window.msBrowser ||
+      window.browser ||
+      window.chrome;
+  })();
+var back = browser.extension.getBackgroundPage();
+var port = browser.runtime.connect({ name: "reloadTable" });
 port.onMessage.addListener(function (msg) {
     reloadTable();
 });
@@ -7,7 +12,7 @@ class PopUP {
     constructor() {
         this.AddOnClicks();
         this.reloadTable();
-        chrome.runtime.onConnect.addListener(function (port) {
+        browser.runtime.onConnect.addListener(function (port) {
             if (port.name == "popup_player") {
                 if (port.name == "popup_player") {
                     port.onMessage.addListener(function (message) {
@@ -81,7 +86,6 @@ class PopUP {
     }
     populate_with_new_rows(tbody) {
         var project = this.getActualProject();
-        debugger;
         document.getElementById('url_input').value = project.url;
         project.actions.forEach(function (element, index) {
 
