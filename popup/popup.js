@@ -87,6 +87,7 @@ class PopUP {
     populate_with_new_rows(tbody) {
         var project = this.getActualProject();
         document.getElementById('url_input').value = project.url;
+        document.getElementById('secuencia').value = project.nombre;
         project.actions.forEach(function (element, index) {
 
             back.mainController.state == "play"
