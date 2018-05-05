@@ -9,7 +9,7 @@ class Events {
         projects: [
           {
             id: 0,
-            nombre: "un nombre",
+            nombre: "secuencia",
             actions: [],
           }
         ]
