@@ -60,15 +60,15 @@ $(document).submit(function (submitEvent) {
     event.path = cssRoute(submitEvent.target);
     storeEvent(event)
 });
-$("input[type=text], input[type=password], input[type=search], textarea, select").on('change', function (action) {
+document.body.addEventListener('change', function (changeEvent) {
     var event = {}
-    event.path = cssRoute(this);
-    event.domPath = getDomPath(this);
-    event.data = this.value;
+    event.path = cssRoute(changeEvent.target);
+    event.domPath = getDomPath(changeEvent.target);
+    event.data = changeEvent.target.value;
     event.action = "change";
     event.url = document.URL;
     storeEvent(event);
-});
+})
 function storeEvent(event) {
     connect.postMessage(event);
 }
