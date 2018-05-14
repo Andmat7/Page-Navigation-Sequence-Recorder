@@ -6,6 +6,8 @@ window.browser = (function () {
 })();
 var player = new Player();
 var events = new Events();
+var animation = new iconAnimator("logo64.png");
+animation.set();
 
 var mainController = new MainController();
 chrome.runtime.onConnect.addListener(function (port) {

@@ -15,10 +15,12 @@ class MainController {
         chrome.browserAction.setBadgeText({ "text": "Play" });
         player.playing();
         this.state = "play";
+        de
         console.log('play Record');
     }
     record() {
         this.state = "record";
+        animation.pulse();
         console.log('recording');
         events.saveURL();
         chrome.browserAction.setBadgeText({ "text": "rec" });

@@ -2,9 +2,11 @@
   "name": "Record Browser",
   "description": "Record Browser",
   "version": "0.01",
-  "permissions": [
-    "activeTab"
-  ],
+  "icons": { 
+		"16": "logo64.png",
+		"48": "logo64.png",
+		"128": "logo64.png" 
+	},
   "background": {
     "page": "background.html"
   },
@@ -30,6 +32,7 @@
   ],
   "permissions": [
     "tabs",
-    "downloads"
+    "downloads",
+    "activeTab"
   ]
 }
