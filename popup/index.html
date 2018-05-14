@@ -1,41 +1,72 @@
 <html>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <style>
-        table, th, td {
+<style>
+    /* table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
             }
         th, td {
             padding: 5px;
             text-align: left;
-        }
-    </style>
-    <body>
-        <h1>Grabador de secuencias</h1>
-        <p></p>
-        <caption>url:<input type="text" disabled="true" id="url_input"></caption>
-        <caption>Nombre de la secuencia<input type="text" id="secuencia"></caption>
-        <table >
-            <thead>
-                <tr>
-                    <th>Ver</th>
-                    <th>evento</th>
-                    <th>elemento</th>
-                    <th>Contenido</th>
-                    <th>comentario</th>
-                </tr>
-            </thead>
-            <tbody id="project">
-            </tbody>
-        </table>
-        <button id="record">Record</button>
-        <button id="stop">Stop</button>
-        <button id="play">Play</button>
-        <button id="reload">Reload</button>
-        <button id="clear">clear</button>
-        <button id="SelectText">Seleccionar texto para verificar</button>
-        <button id="send">Enviar</button>
-        <button id="download">Descargar json</button>
+        } */
+</style>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+
+    <div class="player">
+        <div class="head">
+            <div class="back"></div>
+            <div class="front">
+                <div class="infos">
+                    <div class="titulo_song">Grabador de secuencias</div>
+                    <div class="duracao_song" id="url_input">
+                    </div>
+                    <caption>Nombre de la secuencia<input type="text" id="secuencia"></caption>
+                </div>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="soundline"></div>
+            <div class="controllers active">
+                <div class="button_player record" id="record"></div>
+                <div class="button_player stop" id="stop"></div>
+                <div class="button_player clear" id="clear"></div>
+                <div class="button_player select_text" id="SelectText"></div>
+                <div class="button_player send" id="send"></div>
+                <div class="button_player download" id="download"></div>
+
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>evento</th>
+                        <th>elemento</th>
+                        <th>Contenido</th>
+                        <th>comentario</th>
+                    </tr>
+                </thead>
+                <tbody id="project">
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="rotation"></div>
     </body>
-    <script type="text/javascript" src="popup.js"></script>
+<script type="text/javascript" src="popup.js"></script>
+
 </html>

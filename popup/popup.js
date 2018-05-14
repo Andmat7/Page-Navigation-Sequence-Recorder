@@ -33,19 +33,15 @@ class PopUP {
     }
 
     AddOnClicks() {
-        document.getElementById("reload").onclick = function () {
-            this.reloadTable();
-        }.bind(this);
-
         document.getElementById("record").onclick = function () {
             back.mainController.record();
         }.bind(this)
         document.getElementById("stop").onclick = function () {
             back.mainController.stop();
         }
-        document.getElementById("play").onclick = function () {
-            back.mainController.play();
-        }
+        // document.getElementById("play").onclick = function () {
+        //     back.mainController.play();
+        // }
         document.getElementById("send").onclick = function () {
             back.mainController.send();
         }
@@ -86,7 +82,7 @@ class PopUP {
     }
     populate_with_new_rows(tbody) {
         var project = this.getActualProject();
-        document.getElementById('url_input').value = project.url;
+        document.getElementById('url_input').innerHTML = project.url;
         document.getElementById('secuencia').value = project.nombre;
         project.actions.forEach(function (element, index) {
 
@@ -122,6 +118,7 @@ class PopUP {
             input.type = "text";
             input.value = element.path;
             input.disabled = true;
+            input.size="13"
             td.appendChild(input);
             tr.appendChild(td);
 
@@ -129,6 +126,7 @@ class PopUP {
             var input = document.createElement("input");
             input.type = "text";
             input.value = element.data
+            input.size="13"
             td.appendChild(input);
             tr.appendChild(td);
 
@@ -136,6 +134,7 @@ class PopUP {
             var input = document.createElement("input");
             input.type = "text";
             input.index = index;
+            input.size="15"
             if (element.comment) {
                 input.value = element.comment
             }
