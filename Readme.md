@@ -18,7 +18,8 @@ a browser plugin that records, in JSON format, the sequence of navigation perfor
 - to put comments on each event.
 - to capture the launch of a popup.
 
-## 
+## JSON
+
 The result obtained will be in JSON format similar to the following
 
 ```json
@@ -28,9 +29,8 @@ The result obtained will be in JSON format similar to the following
 "URL": "www.test.com",
 "events": [
 { "event": "click", "element": "id-menu1", "input": "null"},
-{ "event": "input-text", "element": "name", "input": "pepito"}, "event": "input-text", "element": "name", "input": "pepito"}
-
-
+{ "event": "input-text", "element": "name", "input": "pepito"},
+{"event": "input-text", "element": "name", "input": "pepito"},
 ] }
 
 ```
