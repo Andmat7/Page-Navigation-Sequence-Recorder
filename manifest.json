@@ -2,11 +2,11 @@
   "name": "Record Browser",
   "description": "Record Browser",
   "version": "0.01",
-  "icons": { 
-		"16": "logo64.png",
-		"48": "logo64.png",
-		"128": "logo64.png" 
-	},
+  "icons": {
+    "16": "logo64.png",
+    "48": "logo64.png",
+    "128": "logo64.png"
+  },
   "background": {
     "page": "background.html"
   },
@@ -17,10 +17,7 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ],
+      "matches": ["https://*/*", "http://*/*"],
       "js": [
         "jquery-3.3.1.min.js",
         "inPages/DetectElements.js",
@@ -30,9 +27,5 @@
       "run_at": "document_end"
     }
   ],
-  "permissions": [
-    "tabs",
-    "downloads",
-    "activeTab"
-  ]
+  "permissions": ["tabs", "downloads", "activeTab"]
 }

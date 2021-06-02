@@ -30,9 +30,8 @@ class MainController {
         chrome.browserAction.setBadgeText({ "text": "text" });
     }
     send() {
-
         var xhr = new XMLHttpRequest();
-        var url = "http://idolearning.test";
+        var url = "http://google.com";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {

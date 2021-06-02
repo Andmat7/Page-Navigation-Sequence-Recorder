@@ -1,5 +1,5 @@
 class Events {
-  constructor(){
+  constructor() {
     this.connect = browser.runtime.connect({ name: "reloadTable" });
   }
   getActions() {
@@ -11,27 +11,25 @@ class Events {
             id: 0,
             nombre: "secuencia",
             actions: [],
-          }
-        ]
-      }
+          },
+        ],
+      };
     }
     return RecordBrowser.projects[0].actions;
   }
   storeEvent(event) {
-    if (mainController.state == "record" && event.action!="text") {
+    if (mainController.state == "record" && event.action != "text") {
       var project = this.getActualProject();
       project.actions.push(event);
       this.saveActualProject(project);
-    }else{
+    } else {
       if (mainController.state == "text") {
-        if (event.action=="text") {
-          alert('texto guardado:'+event.data);
+        if (event.action == "text") {
           var project = this.getActualProject();
           project.actions.push(event);
           this.saveActualProject(project);
           mainController.stop();
         }
-  
       }
     }
   }
@@ -42,11 +40,11 @@ class Events {
         projects: [
           {
             id: 0,
-            nombre: "un nombre",
+            nombre: "name",
             actions: [],
-          }
-        ]
-      }
+          },
+        ],
+      };
     }
     return RecordBrowser.projects[0];
   }
@@ -54,14 +52,13 @@ class Events {
     var RecordBrowser = JSON.parse(localStorage.getItem("RecordBrowser"));
     if (!RecordBrowser) {
       RecordBrowser = {
-        projects: []
-      }
+        projects: [],
+      };
     }
     RecordBrowser.projects[0] = project;
     localStorage.setItem("RecordBrowser", JSON.stringify(RecordBrowser));
   }
   saveURL() {
-
     //  browser.tabs.getSelected(null, function (tab) {
     //   browser.tabs.query({active: true}){
     //   var project = this.getActualProject();
@@ -71,10 +68,9 @@ class Events {
     //   this.saveActualProject(project);
     // }.bind(this));
     function logTabs(tabs) {
-      
       for (let tab of tabs) {
         var project = this.getActualProject();
-        if(!project.url){
+        if (!project.url) {
           project.url = tab.url;
         }
         this.saveActualProject(project);
@@ -82,14 +78,12 @@ class Events {
         console.log(tab.url);
       }
     }
-    
+
     function onError(error) {
       console.log(`Error: ${error}`);
     }
-    
-    var querying = browser.tabs.query({active: true},logTabs.bind(this));
+
+    var querying = browser.tabs.query({ active: true }, logTabs.bind(this));
     //querying.then(logTabs.bind(this), onError);
-
-
   }
 }
